@@ -1,10 +1,8 @@
 import boto3
 
 def lambda_handler(event, context):
-    # Entrada (json)
-    tenant_id = event['body']['tenant_id']
-    alumno_id = event['body']['alumno_id']
-    # Proceso
+    tenant_id = event['tenant_id']
+    alumno_id = event['alumno_id']
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table('t_alumnos')
     response = table.get_item(
@@ -14,7 +12,6 @@ def lambda_handler(event, context):
         }
     )
     alumno = response.get('Item', None)
-    # Salida (json)
     if alumno:
         return {
             'statusCode': 200,
